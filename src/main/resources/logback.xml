@@ -1,0 +1,19 @@
+<configuration>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger level="INFO" name="org.apache.velocity" />
+	<logger level="INFO" name="org.eclipse.jetty" />
+	<logger level="INFO" name="org.apache.http" />
+	<logger level="INFO" name="com.robindrew.trading.igindex.rest" />
+	<logger level="INFO" name="oshi" />
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

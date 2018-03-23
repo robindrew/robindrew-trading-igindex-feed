@@ -1,0 +1,100 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li class="active"><a href="/Feeds"><span class="glyphicon glyphicon-cloud-download"></span> Feeds</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<!-- TITLE -->
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-cloud-download"></span> Feeds</h3>
+</div>
+
+<div class="col-md-12">
+<div class="panel panel-default">
+<table class="table small table-hover table-striped table-bordered">
+<tr class="active">
+<th>Type</th>
+<th>Name</th>
+<th>Epic</th>
+<th>Price</th>
+<th>Total Updates</th>
+<th>Last Update</th>
+</tr>
+#foreach($feed in $feeds)
+<tr>
+<td>${feed.markets.instrument.type}</td>
+<td>${feed.markets.instrument.name}</td>
+<td>${feed.subscription.config.instrument.name}</td>
+#if($feed.subscription.latestPrice)
+#if($feed.subscription.latestDirection == "BUY")
+<td class="info">
+<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>&nbsp;&nbsp;${feed.subscription.latestPrice.price.closePrice}
+</td>
+#else
+<td class="danger">
+<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>&nbsp;&nbsp;${feed.subscription.latestPrice.price.closePrice}
+</td>
+#end
+#else
+<td>-</td>
+#end
+<td>${feed.subscription.latestPrice.updateCount}</td>
+<td>${feed.timeSinceLastUpdate}</td>
+</tr>
+#end
+</table>
+</div>
+</div>
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+</body>
+</html>
