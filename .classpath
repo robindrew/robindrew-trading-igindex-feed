@@ -23,6 +23,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-trading"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-trading-igindex"/>
 	<classpathentry kind="lib" path="/robindrew-trading-igindex/lib/lightstreamer-client-6.0.2.jar"/>
-	<classpathentry kind="lib" path="/robindrew-resources/robindrew-trading-igindex-feed"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
