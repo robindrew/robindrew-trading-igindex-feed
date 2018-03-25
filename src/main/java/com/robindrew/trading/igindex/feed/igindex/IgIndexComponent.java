@@ -2,9 +2,6 @@ package com.robindrew.trading.igindex.feed.igindex;
 
 import static com.robindrew.common.dependency.DependencyFactory.getDependency;
 import static com.robindrew.common.dependency.DependencyFactory.setDependency;
-import static com.robindrew.trading.provider.TradeDataProvider.FXCM;
-import static com.robindrew.trading.provider.TradeDataProvider.HISTDATA;
-import static com.robindrew.trading.provider.TradeDataProvider.IGINDEX;
 
 import java.io.File;
 
@@ -23,14 +20,8 @@ import com.robindrew.trading.igindex.feed.igindex.connection.IConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.session.SessionManager;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
-import com.robindrew.trading.price.candle.format.pcf.source.IPcfSourceManager;
-import com.robindrew.trading.price.candle.format.pcf.source.PcfSourceHistoryService;
-import com.robindrew.trading.price.candle.format.pcf.source.file.PcfFileManager;
 import com.robindrew.trading.price.candle.io.stream.sink.subscriber.IInstrumentPriceStreamListener;
-import com.robindrew.trading.price.history.IHistoryService;
 import com.robindrew.trading.price.precision.PricePrecision;
-import com.robindrew.trading.provider.ITradeDataProviderSet;
-import com.robindrew.trading.provider.TradeDataProviderSet;
 import com.robindrew.trading.provider.igindex.IgInstrument;
 import com.robindrew.trading.provider.igindex.platform.IIgSession;
 import com.robindrew.trading.provider.igindex.platform.IgCredentials;
@@ -53,7 +44,6 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	private static final IProperty<String> propertyApiKey = new StringProperty("igindex.api.key");
 	private static final IProperty<String> propertyUsername = new StringProperty("igindex.username");
 	private static final IProperty<String> propertyPassword = new StringProperty("igindex.password");
-	private static final IProperty<String> propertyHistoricPricesDir = new StringProperty("historic.prices.directory");
 	private static final IProperty<IgEnvironment> propertyEnvironment = new EnumProperty<>(IgEnvironment.class, "igindex.environment");
 
 	@Override
