@@ -44,6 +44,8 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	private static final IProperty<String> propertyPassword = new StringProperty("igindex.password");
 	private static final IProperty<IgEnvironment> propertyEnvironment = new EnumProperty<>(IgEnvironment.class, "igindex.environment");
 
+	private volatile IgStreamingServiceMonitor monitor;
+
 	@Override
 	protected void startupComponent() throws Exception {
 		IMBeanRegistry registry = new AnnotatedMBeanRegistry();
@@ -87,8 +89,12 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		createStreamingSubscriptions();
 
 		log.info("Creating Streaming Service Monitor");
-		IgStreamingServiceMonitor monitor = new IgStreamingServiceMonitor(platform);
+		monitor = new IgStreamingServiceMonitor(platform);
 		monitor.start();
+	}
+
+	public IgStreamingServiceMonitor getMonitor() {
+		return monitor;
 	}
 
 	private void createStreamingSubscriptions() {
