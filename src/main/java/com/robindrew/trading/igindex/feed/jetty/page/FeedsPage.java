@@ -68,13 +68,13 @@ public class FeedsPage extends AbstractServicePage {
 		}
 
 		public String getTimeSinceLastUpdate() {
-			long time = subscription.getLatestPrice().getUpdateTime();
+			long time = subscription.getPrice().getSnapshot().getTimestamp();
 			return Strings.duration(time, currentTimeMillis());
 		}
 
 		@Override
 		public int compareTo(Feed that) {
-			return subscription.getListener().getInstrument().compareTo(that.subscription.getListener().getInstrument());
+			return subscription.getInstrument().compareTo(that.subscription.getInstrument());
 		}
 	}
 }

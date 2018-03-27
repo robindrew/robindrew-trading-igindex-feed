@@ -20,7 +20,6 @@ import com.robindrew.trading.igindex.feed.igindex.connection.IConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.session.SessionManager;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
-import com.robindrew.trading.price.candle.io.stream.sink.subscriber.IInstrumentPriceStreamListener;
 import com.robindrew.trading.price.precision.PricePrecision;
 import com.robindrew.trading.provider.igindex.IgInstrument;
 import com.robindrew.trading.provider.igindex.platform.IIgSession;
@@ -35,7 +34,6 @@ import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketna
 import com.robindrew.trading.provider.igindex.platform.sink.PriceCandleTickFileSink;
 import com.robindrew.trading.provider.igindex.platform.streaming.IgStreamingServiceMonitor;
 import com.robindrew.trading.provider.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
-import com.robindrew.trading.provider.igindex.platform.streaming.subscription.charttick.ChartTickPriceStreamBuilder;
 
 public class IgIndexComponent extends AbstractIdleComponent {
 
@@ -126,20 +124,19 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		ITradingPlatform platform = getDependency(ITradingPlatform.class);
 
 		// Create the underlying stream
-		ChartTickPriceStream stream = new ChartTickPriceStreamBuilder().build(instrument, precision);
-		stream.start();
+		ChartTickPriceStream priceStream = new ChartTickPriceStream(instrument, precision);
+		priceStream.start();
 
 		// Create the output file
-		PriceCandleTickFileSink fileSink = new PriceCandleTickFileSink(instrument, new File("c:/temp/prices"));
-		fileSink.start();
+		PriceCandleTickFileSink priceFileSink = new PriceCandleTickFileSink(instrument, new File("c:/temp/prices"));
+		priceFileSink.start();
 
 		// Register the stream to make it available through the platform
-		IStreamingService streaming = platform.getStreamingService();
-		streaming.register(stream);
+		IStreamingService streamingService = platform.getStreamingService();
+		streamingService.register(priceStream);
 
 		// Register all the sinks
-		IInstrumentPriceStreamListener listener = stream.getListener();
-		listener.register(fileSink);
+		priceStream.register(priceFileSink);
 	}
 
 	@Override
