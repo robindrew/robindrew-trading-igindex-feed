@@ -15,6 +15,7 @@ import com.robindrew.common.text.Strings;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.IStreamingService;
+import com.robindrew.trading.platform.streaming.latest.IPriceSnapshot;
 import com.robindrew.trading.provider.igindex.platform.IIgSession;
 import com.robindrew.trading.provider.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarkets.Markets;
@@ -53,14 +54,21 @@ public class FeedsPage extends AbstractServicePage {
 
 		private final IInstrumentPriceStream subscription;
 		private final Markets markets;
+		private final IPriceSnapshot snapshot;
 
 		public Feed(IInstrumentPriceStream subscription, Markets markets) {
 			this.subscription = subscription;
 			this.markets = markets;
+
+			this.snapshot = subscription.getPrice().getSnapshot();
 		}
 
 		public IInstrumentPriceStream getSubscription() {
 			return subscription;
+		}
+
+		public IPriceSnapshot getSnapshot() {
+			return snapshot;
 		}
 
 		public Markets getMarkets() {
@@ -68,7 +76,10 @@ public class FeedsPage extends AbstractServicePage {
 		}
 
 		public String getTimeSinceLastUpdate() {
-			long time = subscription.getPrice().getSnapshot().getTimestamp();
+			if (snapshot == null) {
+				return "-";
+			}
+			long time = snapshot.getTimestamp();
 			return Strings.duration(time, currentTimeMillis());
 		}
 

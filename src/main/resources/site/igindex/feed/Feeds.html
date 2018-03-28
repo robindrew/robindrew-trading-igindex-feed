@@ -63,21 +63,21 @@ body { padding-top: 10px; }
 <tr>
 <td>${feed.markets.instrument.type}</td>
 <td>${feed.markets.instrument.name}</td>
-<td>${feed.subscription.config.instrument.name}</td>
-#if($feed.subscription.latestPrice)
-#if($feed.subscription.latestDirection == "BUY")
+<td>${feed.subscription.instrument.name}</td>
+#if($feed.snapshot)
+#if($feed.snapshot.direction == "BUY")
 <td class="info">
-<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>&nbsp;&nbsp;${feed.subscription.latestPrice.price.closePrice}
+<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>&nbsp;&nbsp;${feed.snapshot.latest.closePrice}
 </td>
 #else
 <td class="danger">
-<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>&nbsp;&nbsp;${feed.subscription.latestPrice.price.closePrice}
+<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>&nbsp;&nbsp;${feed.snapshot.latest.closePrice}
 </td>
 #end
 #else
 <td>-</td>
 #end
-<td>${feed.subscription.latestPrice.updateCount}</td>
+<td>${feed.subscription.price.updateCount}</td>
 <td>${feed.timeSinceLastUpdate}</td>
 </tr>
 #end

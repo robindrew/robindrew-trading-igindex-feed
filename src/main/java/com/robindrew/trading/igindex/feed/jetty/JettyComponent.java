@@ -14,7 +14,6 @@ import com.robindrew.common.service.component.jetty.handler.page.IndexPage;
 import com.robindrew.common.service.component.jetty.handler.page.SystemPage;
 import com.robindrew.common.template.ITemplateLocator;
 import com.robindrew.common.template.velocity.VelocityTemplateLocatorSupplier;
-import com.robindrew.trading.igindex.feed.jetty.page.FeedPage;
 import com.robindrew.trading.igindex.feed.jetty.page.FeedsPage;
 
 public class JettyComponent extends JettyVelocityComponent {
@@ -36,10 +35,9 @@ public class JettyComponent extends JettyVelocityComponent {
 		handler.uri("/BeanOperation", new BeanOperationPage(getContext(), "site/common/BeanOperation.html"));
 
 		// Register extra pages
-		handler.uri("/Feed", new FeedPage(getContext(), "site/igindex/feed/Feed.html"));
 		handler.uri("/Feeds", new FeedsPage(getContext(), "site/igindex/feed/Feeds.html"));
 	}
-
+	
 	private IHttpExecutor newIndexPage(IVelocityHttpContext context, String templateName) {
 		IndexPage page = new IndexPage(context, templateName);
 		page.addLink("Feeds", "/Feeds", Bootstrap.COLOR_DEFAULT);
