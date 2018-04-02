@@ -29,7 +29,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 
 		if (snapshot == null) {
 			this.close = "-";
-			this.direction = "-";
+			this.direction = "STALE";
 			this.lastUpdated = "-";
 			this.updateCount = "-";
 			this.directionColor = Bootstrap.COLOR_WARNING;

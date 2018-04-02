@@ -64,7 +64,7 @@ body { padding-top: 10px; }
 <td>${feed.markets.instrument.type}</td>
 <td>${feed.markets.instrument.name}</td>
 <td>${feed.subscription.instrument.name}</td>
-<td id="${feed.id}_CloseColor" class="warning"><span id="${feed.id}_CloseIcon" class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>&nbsp;&nbsp;<span id="${feed.id}_ClosePrice">-</span></td>
+<td id="${feed.id}_CloseColor" class="warning CloseColor"><span id="${feed.id}_CloseIcon" class="glyphicon glyphicon-arrow-right CloseIcon" aria-hidden="true"></span>&nbsp;&nbsp;<span id="${feed.id}_ClosePrice">-</span></td>
 <td id="${feed.id}_LastUpdated">-</td>
 <td id="${feed.id}_UpdateCount">-</td>
 </tr>
@@ -97,11 +97,19 @@ $(document).ready(function () {
 				if (price.direction == "BUY") {
 					color.removeClass("danger").removeClass("warning").addClass("info");
 					icon.removeClass("glyphicon-arrow-right").removeClass("glyphicon-arrow-down").addClass("glyphicon-arrow-up");
-				} else {
+				}
+				if (price.direction == "SELL") {
 					color.removeClass("info").removeClass("warning").addClass("danger");
 					icon.removeClass("glyphicon-arrow-right").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-down");
 				}
+				if (price.direction == "STALE") {
+					color.removeClass("danger").removeClass("info").addClass("warning");
+					icon.removeClass("glyphicon-arrow-down").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-right");
+				}
 			});
+		}).error(function() {
+			$(".CloseColor").removeClass("danger").removeClass("info").addClass("warning");
+			$(".CloseIcon").removeClass("glyphicon-arrow-down").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-right");
 		});
 	}, 500);
 });
