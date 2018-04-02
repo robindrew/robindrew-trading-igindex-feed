@@ -15,6 +15,7 @@ import com.robindrew.common.service.component.jetty.handler.page.SystemPage;
 import com.robindrew.common.template.ITemplateLocator;
 import com.robindrew.common.template.velocity.VelocityTemplateLocatorSupplier;
 import com.robindrew.trading.igindex.feed.jetty.page.FeedsPage;
+import com.robindrew.trading.igindex.feed.jetty.page.PricesPage;
 
 public class JettyComponent extends JettyVelocityComponent {
 
@@ -36,6 +37,7 @@ public class JettyComponent extends JettyVelocityComponent {
 
 		// Register extra pages
 		handler.uri("/Feeds", new FeedsPage(getContext(), "site/igindex/feed/Feeds.html"));
+		handler.uri("/Prices", new PricesPage(getContext(), "site/igindex/feed/Prices.json"));
 	}
 	
 	private IHttpExecutor newIndexPage(IVelocityHttpContext context, String templateName) {

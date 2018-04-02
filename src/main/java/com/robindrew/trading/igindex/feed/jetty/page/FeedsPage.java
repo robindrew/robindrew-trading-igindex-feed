@@ -1,7 +1,6 @@
 package com.robindrew.trading.igindex.feed.jetty.page;
 
 import static com.robindrew.common.dependency.DependencyFactory.getDependency;
-import static java.lang.System.currentTimeMillis;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,11 +10,9 @@ import com.robindrew.common.http.servlet.executor.IVelocityHttpContext;
 import com.robindrew.common.http.servlet.request.IHttpRequest;
 import com.robindrew.common.http.servlet.response.IHttpResponse;
 import com.robindrew.common.service.component.jetty.handler.page.AbstractServicePage;
-import com.robindrew.common.text.Strings;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.IStreamingService;
-import com.robindrew.trading.platform.streaming.latest.IPriceSnapshot;
 import com.robindrew.trading.provider.igindex.platform.IIgSession;
 import com.robindrew.trading.provider.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarkets.Markets;
@@ -54,38 +51,33 @@ public class FeedsPage extends AbstractServicePage {
 
 		private final IInstrumentPriceStream subscription;
 		private final Markets markets;
-		private final IPriceSnapshot snapshot;
+		private final FeedPrice price;
 
 		public Feed(IInstrumentPriceStream subscription, Markets markets) {
 			this.subscription = subscription;
 			this.markets = markets;
-
-			this.snapshot = subscription.getPrice().getSnapshot();
+			this.price = new FeedPrice(subscription);
 		}
 
+		public String getId() {
+			return subscription.getInstrument().getName().replace('.', '_');
+		}
+		
 		public IInstrumentPriceStream getSubscription() {
 			return subscription;
-		}
-
-		public IPriceSnapshot getSnapshot() {
-			return snapshot;
 		}
 
 		public Markets getMarkets() {
 			return markets;
 		}
-
-		public String getTimeSinceLastUpdate() {
-			if (snapshot == null) {
-				return "-";
-			}
-			long time = snapshot.getTimestamp();
-			return Strings.duration(time, currentTimeMillis());
+		
+		public FeedPrice getPrice() {
+			return price;
 		}
 
 		@Override
 		public int compareTo(Feed that) {
-			return subscription.getInstrument().compareTo(that.subscription.getInstrument());
+			return this.getPrice().compareTo(that.getPrice());
 		}
 	}
 }
