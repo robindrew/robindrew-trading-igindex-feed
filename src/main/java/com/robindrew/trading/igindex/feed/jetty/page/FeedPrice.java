@@ -8,7 +8,7 @@ import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.latest.IPriceSnapshot;
 import com.robindrew.trading.platform.streaming.latest.IStreamingPrice;
 import com.robindrew.trading.price.candle.IPriceCandle;
-import com.robindrew.trading.price.candle.format.pcf.FloatingPoint;
+import com.robindrew.trading.price.decimal.Decimals;
 
 public class FeedPrice implements Comparable<FeedPrice> {
 
@@ -36,7 +36,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 		} else {
 			IPriceCandle latest = snapshot.getLatest();
 			
-			this.close = FloatingPoint.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
+			this.close = Decimals.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
 			this.direction = snapshot.getDirection().name();
 			long millis = currentTimeMillis() - snapshot.getTimestamp();
 			this.lastUpdated = millis >= 5000 ? Strings.duration(millis) : "-";
