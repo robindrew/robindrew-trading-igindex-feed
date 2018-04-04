@@ -21,6 +21,7 @@ import com.robindrew.trading.igindex.feed.igindex.session.SessionManager;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
 import com.robindrew.trading.price.precision.PricePrecision;
+import com.robindrew.trading.price.tick.io.stream.sink.PriceTickFileSink;
 import com.robindrew.trading.provider.igindex.IgInstrument;
 import com.robindrew.trading.provider.igindex.platform.IIgSession;
 import com.robindrew.trading.provider.igindex.platform.IgCredentials;
@@ -31,7 +32,6 @@ import com.robindrew.trading.provider.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.provider.igindex.platform.rest.IgRestService;
 import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
 import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketnavigation.MarketNavigationCache;
-import com.robindrew.trading.provider.igindex.platform.sink.PriceCandleTickFileSink;
 import com.robindrew.trading.provider.igindex.platform.streaming.IgStreamingServiceMonitor;
 import com.robindrew.trading.provider.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
 
@@ -134,7 +134,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		priceStream.start();
 
 		// Create the output file
-		PriceCandleTickFileSink priceFileSink = new PriceCandleTickFileSink(instrument, new File("c:/temp/prices"));
+		PriceTickFileSink priceFileSink = new PriceTickFileSink(instrument, new File("c:/temp/prices/igindex"));
 		priceFileSink.start();
 
 		// Register the stream to make it available through the platform
