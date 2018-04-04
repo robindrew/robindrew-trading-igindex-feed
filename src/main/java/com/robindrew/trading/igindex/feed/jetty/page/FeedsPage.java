@@ -60,7 +60,7 @@ public class FeedsPage extends AbstractServicePage {
 		}
 
 		public String getId() {
-			return subscription.getInstrument().getName().replace('.', '_');
+			return FeedPrice.toId(subscription.getInstrument().getName());
 		}
 		
 		public IInstrumentPriceStream getSubscription() {

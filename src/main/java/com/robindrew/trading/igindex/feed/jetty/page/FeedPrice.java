@@ -12,6 +12,16 @@ import com.robindrew.trading.price.decimal.Decimals;
 
 public class FeedPrice implements Comparable<FeedPrice> {
 
+	public static final String toId(String instrument) {
+		StringBuilder id = new StringBuilder();
+		for (char c : instrument.toCharArray()) {
+			if (Character.isDigit(c) || Character.isLetter(c)) {
+				id.append(c);
+			}
+		}
+		return id.toString();
+	}
+
 	private final String id;
 	private final String instrument;
 	private final String close;
@@ -25,7 +35,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 		IPriceSnapshot snapshot = price.getSnapshot();
 
 		this.instrument = subscription.getInstrument().getName();
-		this.id = this.instrument.replace('.', '_');
+		this.id = toId(this.instrument);
 
 		if (snapshot == null) {
 			this.close = "-";
@@ -35,10 +45,11 @@ public class FeedPrice implements Comparable<FeedPrice> {
 			this.directionColor = Bootstrap.COLOR_WARNING;
 		} else {
 			IPriceCandle latest = snapshot.getLatest();
-			
-			this.close = Decimals.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
-			this.direction = snapshot.getDirection().name();
+
 			long millis = currentTimeMillis() - snapshot.getTimestamp();
+
+			this.close = Decimals.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
+			this.direction = millis >= 1000 ? "STALE" : snapshot.getDirection().name();
 			this.lastUpdated = millis >= 5000 ? Strings.duration(millis) : "-";
 			this.updateCount = String.valueOf(price.getUpdateCount());
 			this.directionColor = snapshot.getDirection().isBuy() ? Bootstrap.COLOR_INFO : Bootstrap.COLOR_DANGER;

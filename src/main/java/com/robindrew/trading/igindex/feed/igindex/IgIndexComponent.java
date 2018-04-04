@@ -43,6 +43,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	private static final IProperty<String> propertyUsername = new StringProperty("igindex.username");
 	private static final IProperty<String> propertyPassword = new StringProperty("igindex.password");
 	private static final IProperty<IgEnvironment> propertyEnvironment = new EnumProperty<>(IgEnvironment.class, "igindex.environment");
+	private static final IProperty<String> propertyTickOutputDir = new StringProperty("tick.output.dir");
 
 	private volatile IgStreamingServiceMonitor monitor;
 
@@ -134,7 +135,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		priceStream.start();
 
 		// Create the output file
-		PriceTickFileSink priceFileSink = new PriceTickFileSink(instrument, new File("c:/temp/prices/igindex"));
+		PriceTickFileSink priceFileSink = new PriceTickFileSink(instrument, new File(propertyTickOutputDir.get()));
 		priceFileSink.start();
 
 		// Register the stream to make it available through the platform
