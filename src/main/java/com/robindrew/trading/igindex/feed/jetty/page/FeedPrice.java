@@ -12,6 +12,8 @@ import com.robindrew.trading.price.decimal.Decimals;
 
 public class FeedPrice implements Comparable<FeedPrice> {
 
+	private static final int STALE_THRESHOLD = 10000;
+
 	public static final String toId(String instrument) {
 		StringBuilder id = new StringBuilder();
 		for (char c : instrument.toCharArray()) {
@@ -46,11 +48,13 @@ public class FeedPrice implements Comparable<FeedPrice> {
 		} else {
 			IPriceCandle latest = snapshot.getLatest();
 
+			// Normalise time to the nearest second to give impression of ticking
 			long millis = currentTimeMillis() - snapshot.getTimestamp();
+			millis = (millis / 1000) * 1000;
 
 			this.close = Decimals.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
-			this.direction = millis >= 1000 ? "STALE" : snapshot.getDirection().name();
-			this.lastUpdated = millis >= 5000 ? Strings.duration(millis) : "-";
+			this.direction = millis >= STALE_THRESHOLD ? "STALE" : snapshot.getDirection().name();
+			this.lastUpdated = millis >= STALE_THRESHOLD ? Strings.duration(millis) : "-";
 			this.updateCount = String.valueOf(price.getUpdateCount());
 			this.directionColor = snapshot.getDirection().isBuy() ? Bootstrap.COLOR_INFO : Bootstrap.COLOR_DANGER;
 		}
