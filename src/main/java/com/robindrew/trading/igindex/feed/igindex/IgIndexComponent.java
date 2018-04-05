@@ -15,25 +15,25 @@ import com.robindrew.common.properties.map.type.IProperty;
 import com.robindrew.common.properties.map.type.StringProperty;
 import com.robindrew.common.service.component.AbstractIdleComponent;
 import com.robindrew.trading.IInstrument;
+import com.robindrew.trading.igindex.IgInstrument;
 import com.robindrew.trading.igindex.feed.igindex.connection.ConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.connection.IConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.session.SessionManager;
+import com.robindrew.trading.igindex.platform.IIgSession;
+import com.robindrew.trading.igindex.platform.IgCredentials;
+import com.robindrew.trading.igindex.platform.IgEnvironment;
+import com.robindrew.trading.igindex.platform.IgSession;
+import com.robindrew.trading.igindex.platform.IgTradingPlatform;
+import com.robindrew.trading.igindex.platform.rest.IIgRestService;
+import com.robindrew.trading.igindex.platform.rest.IgRestService;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.MarketNavigationCache;
+import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonitor;
+import com.robindrew.trading.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
 import com.robindrew.trading.price.precision.PricePrecision;
 import com.robindrew.trading.price.tick.io.stream.sink.PriceTickFileSink;
-import com.robindrew.trading.provider.igindex.IgInstrument;
-import com.robindrew.trading.provider.igindex.platform.IIgSession;
-import com.robindrew.trading.provider.igindex.platform.IgCredentials;
-import com.robindrew.trading.provider.igindex.platform.IgEnvironment;
-import com.robindrew.trading.provider.igindex.platform.IgSession;
-import com.robindrew.trading.provider.igindex.platform.IgTradingPlatform;
-import com.robindrew.trading.provider.igindex.platform.rest.IIgRestService;
-import com.robindrew.trading.provider.igindex.platform.rest.IgRestService;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketnavigation.MarketNavigationCache;
-import com.robindrew.trading.provider.igindex.platform.streaming.IgStreamingServiceMonitor;
-import com.robindrew.trading.provider.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
 
 public class IgIndexComponent extends AbstractIdleComponent {
 

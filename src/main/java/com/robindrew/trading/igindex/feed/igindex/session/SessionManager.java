@@ -1,6 +1,6 @@
 package com.robindrew.trading.igindex.feed.igindex.session;
 
-import com.robindrew.trading.provider.igindex.platform.IgSession;
+import com.robindrew.trading.igindex.platform.IgSession;
 
 public class SessionManager implements SessionManagerMBean {
 

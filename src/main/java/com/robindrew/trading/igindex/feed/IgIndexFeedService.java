@@ -11,7 +11,7 @@ import com.robindrew.trading.igindex.feed.jetty.JettyComponent;
 public class IgIndexFeedService extends AbstractService {
 
 	/**
-	 * Entry point for the TurnEngine Admin Client Service.
+	 * Entry point for the IG Index Feed Service.
 	 */
 	public static void main(String[] args) {
 		IgIndexFeedService service = new IgIndexFeedService(args);

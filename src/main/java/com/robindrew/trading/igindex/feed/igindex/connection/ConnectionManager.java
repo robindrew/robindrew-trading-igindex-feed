@@ -8,14 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.robindrew.common.util.Check;
+import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
+import com.robindrew.trading.igindex.platform.rest.IIgRestService;
+import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.Account;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.MarketNavigation;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
+import com.robindrew.trading.igindex.platform.rest.executor.getpositions.MarketPosition;
+import com.robindrew.trading.igindex.platform.rest.executor.login.LoginDetails;
 import com.robindrew.trading.platform.streaming.IStreamingService;
-import com.robindrew.trading.provider.igindex.platform.IIgTradingPlatform;
-import com.robindrew.trading.provider.igindex.platform.rest.IIgRestService;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getaccounts.Account;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarketnavigation.MarketNavigation;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getmarkets.Markets;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.getpositions.MarketPosition;
-import com.robindrew.trading.provider.igindex.platform.rest.executor.login.LoginDetails;
 
 public class ConnectionManager implements IConnectionManager, ConnectionManagerMBean {
 
