@@ -12,7 +12,9 @@ import com.robindrew.common.mbean.IMBeanRegistry;
 import com.robindrew.common.mbean.annotated.AnnotatedMBeanRegistry;
 import com.robindrew.common.properties.map.type.EnumProperty;
 import com.robindrew.common.properties.map.type.IProperty;
+import com.robindrew.common.properties.map.type.IntegerProperty;
 import com.robindrew.common.properties.map.type.StringProperty;
+import com.robindrew.common.service.Services;
 import com.robindrew.common.service.component.AbstractIdleComponent;
 import com.robindrew.trading.IInstrument;
 import com.robindrew.trading.igindex.IgInstrument;
@@ -32,6 +34,8 @@ import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonito
 import com.robindrew.trading.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
+import com.robindrew.trading.platform.streaming.publisher.IPricePublisherServer;
+import com.robindrew.trading.platform.streaming.publisher.PricePublisherServer;
 import com.robindrew.trading.price.precision.PricePrecision;
 import com.robindrew.trading.price.tick.io.stream.sink.PriceTickFileSink;
 
@@ -44,6 +48,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	private static final IProperty<String> propertyPassword = new StringProperty("igindex.password");
 	private static final IProperty<IgEnvironment> propertyEnvironment = new EnumProperty<>(IgEnvironment.class, "igindex.environment");
 	private static final IProperty<String> propertyTickOutputDir = new StringProperty("tick.output.dir");
+	private static final IProperty<Integer> propertyPricePublisherPortOffset = new IntegerProperty("price.publisher.port.offset");
 
 	private volatile IgStreamingServiceMonitor monitor;
 
@@ -92,6 +97,14 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		log.info("Creating Streaming Service Monitor");
 		monitor = new IgStreamingServiceMonitor(platform);
 		monitor.start();
+
+		// Publisher port
+		int offset = propertyPricePublisherPortOffset.get();
+		int port = Services.getOffsetPort(offset);
+		PricePublisherServer server = new PricePublisherServer(port);
+		setDependency(IPricePublisherServer.class, server);
+		server.start();
+		registry.register(server);
 	}
 
 	public IgStreamingServiceMonitor getMonitor() {
