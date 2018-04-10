@@ -5,9 +5,9 @@ import static java.lang.System.currentTimeMillis;
 import com.robindrew.common.html.Bootstrap;
 import com.robindrew.common.text.Strings;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
-import com.robindrew.trading.platform.streaming.latest.IPriceSnapshot;
-import com.robindrew.trading.platform.streaming.latest.IStreamingPrice;
 import com.robindrew.trading.price.candle.IPriceCandle;
+import com.robindrew.trading.price.candle.streaming.IPriceCandleSnapshot;
+import com.robindrew.trading.price.candle.streaming.IStreamingCandlePrice;
 import com.robindrew.trading.price.decimal.Decimals;
 
 public class FeedPrice implements Comparable<FeedPrice> {
@@ -33,8 +33,8 @@ public class FeedPrice implements Comparable<FeedPrice> {
 	private final String directionColor;
 
 	public FeedPrice(IInstrumentPriceStream subscription) {
-		IStreamingPrice price = subscription.getPrice();
-		IPriceSnapshot snapshot = price.getSnapshot();
+		IStreamingCandlePrice price = subscription.getPrice();
+		IPriceCandleSnapshot snapshot = price.getSnapshot();
 
 		this.instrument = subscription.getInstrument().getName();
 		this.id = toId(this.instrument);
