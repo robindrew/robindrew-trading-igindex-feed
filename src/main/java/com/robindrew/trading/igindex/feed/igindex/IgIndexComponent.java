@@ -36,8 +36,8 @@ import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
 import com.robindrew.trading.platform.streaming.publisher.IPricePublisherServer;
 import com.robindrew.trading.platform.streaming.publisher.PricePublisherServer;
+import com.robindrew.trading.price.candle.io.stream.sink.PriceCandleFileSink;
 import com.robindrew.trading.price.precision.PricePrecision;
-import com.robindrew.trading.price.tick.io.stream.sink.PriceTickFileSink;
 
 public class IgIndexComponent extends AbstractIdleComponent {
 
@@ -148,7 +148,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		priceStream.start();
 
 		// Create the output file
-		PriceTickFileSink priceFileSink = new PriceTickFileSink(instrument, new File(propertyTickOutputDir.get()));
+		PriceCandleFileSink priceFileSink = new PriceCandleFileSink(instrument, new File(propertyTickOutputDir.get()));
 		priceFileSink.start();
 
 		// Register the stream to make it available through the platform

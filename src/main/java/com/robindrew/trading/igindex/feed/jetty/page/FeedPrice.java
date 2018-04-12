@@ -52,7 +52,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 			long millis = currentTimeMillis() - snapshot.getTimestamp();
 			millis = (millis / 1000) * 1000;
 
-			this.close = Decimals.toBigDecimal(latest.getClosePrice(), latest.getDecimalPlaces()).toPlainString();
+			this.close = Decimals.toBigDecimal(latest.getMidClosePrice(), latest.getDecimalPlaces()).toPlainString();
 			this.direction = millis >= STALE_THRESHOLD ? "STALE" : snapshot.getDirection().name();
 			this.lastUpdated = millis >= STALE_THRESHOLD ? Strings.duration(millis) : "-";
 			this.updateCount = String.valueOf(price.getUpdateCount());
