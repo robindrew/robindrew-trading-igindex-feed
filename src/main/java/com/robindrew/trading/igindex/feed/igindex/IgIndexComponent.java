@@ -112,31 +112,31 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	}
 
 	private void createStreamingSubscriptions() {
-		// createStreamingSubscription(IgInstrument.SUNDAY_DOW_JONES, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SUNDAY_FTSE_100, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SUNDAY_DAX, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SPOT_BITCOIN, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SPOT_ETHER, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SPOT_RIPPLE, new PricePrecision(2, 900, 90000));
-		// createStreamingSubscription(IgInstrument.SPOT_LITECOIN, new PricePrecision(2, 900, 90000));
+		// createStreamingSubscription(IgInstrument.SUNDAY_DOW_JONES, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SUNDAY_FTSE_100, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SUNDAY_DAX, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SPOT_BITCOIN, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SPOT_ETHER, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SPOT_RIPPLE, new PricePrecision(2));
+		// createStreamingSubscription(IgInstrument.SPOT_LITECOIN, new PricePrecision(2));
 
 		// Currencies
-		createStreamingSubscription(IgInstrument.SPOT_AUD_USD, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_EUR_JPY, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_EUR_USD, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_GBP_USD, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_USD_CHF, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_USD_JPY, new PricePrecision(2, 900, 90000));
+		createStreamingSubscription(IgInstrument.SPOT_AUD_USD, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_EUR_JPY, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_EUR_USD, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_GBP_USD, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_USD_CHF, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_USD_JPY, new PricePrecision(2));
 
 		// Indices
-		createStreamingSubscription(IgInstrument.WEEKDAY_FTSE_100, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.WEEKDAY_DOW_JONES, new PricePrecision(2, 900, 90000));
+		createStreamingSubscription(IgInstrument.WEEKDAY_FTSE_100, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.WEEKDAY_DOW_JONES, new PricePrecision(2));
 
 		// Commodities
-		createStreamingSubscription(IgInstrument.SPOT_SILVER, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_GOLD, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_US_CRUDE, new PricePrecision(2, 900, 90000));
-		createStreamingSubscription(IgInstrument.SPOT_BRENT_CRUDE, new PricePrecision(2, 900, 90000));
+		createStreamingSubscription(IgInstrument.SPOT_SILVER, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_GOLD, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_US_CRUDE, new PricePrecision(2));
+		createStreamingSubscription(IgInstrument.SPOT_BRENT_CRUDE, new PricePrecision(2));
 
 	}
 
