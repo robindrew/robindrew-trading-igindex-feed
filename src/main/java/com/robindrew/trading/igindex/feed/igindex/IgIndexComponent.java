@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.robindrew.common.mbean.IMBeanRegistry;
 import com.robindrew.common.mbean.annotated.AnnotatedMBeanRegistry;
 import com.robindrew.common.properties.map.type.EnumProperty;
+import com.robindrew.common.properties.map.type.FileProperty;
 import com.robindrew.common.properties.map.type.IProperty;
 import com.robindrew.common.properties.map.type.IntegerProperty;
 import com.robindrew.common.properties.map.type.StringProperty;
@@ -29,9 +30,10 @@ import com.robindrew.trading.igindex.platform.IgTradingPlatform;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.igindex.platform.rest.IgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.MarketNavigationCache;
 import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonitor;
 import com.robindrew.trading.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
+import com.robindrew.trading.log.ITransactionLog;
+import com.robindrew.trading.log.TransactionLog;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
 import com.robindrew.trading.platform.streaming.publisher.IPricePublisherServer;
@@ -49,6 +51,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 	private static final IProperty<IgEnvironment> propertyEnvironment = new EnumProperty<>(IgEnvironment.class, "igindex.environment");
 	private static final IProperty<String> propertyTickOutputDir = new StringProperty("tick.output.dir");
 	private static final IProperty<Integer> propertyPricePublisherPortOffset = new IntegerProperty("price.publisher.port.offset");
+	private static final IProperty<File> propertyTransactionLogDir = new FileProperty("transaction.log.dir");
 
 	private volatile IgStreamingServiceMonitor monitor;
 
@@ -60,6 +63,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		String username = propertyUsername.get();
 		String password = propertyPassword.get();
 		IgEnvironment environment = propertyEnvironment.get();
+		File transactionLogDir = propertyTransactionLogDir.get();
 
 		IgCredentials credentials = new IgCredentials(apiKey, username, password);
 
@@ -73,11 +77,13 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		SessionManager sessionManager = new SessionManager(session);
 		registry.register(sessionManager);
 
+		log.info("Creating Transaction Log");
+		ITransactionLog transactionLog = new TransactionLog(transactionLogDir);
+
 		log.info("Creating REST Service");
-		IMarketNavigationCache marketNavigationCache = new MarketNavigationCache();
-		IIgRestService rest = new IgRestService(session, marketNavigationCache);
+		IgRestService rest = new IgRestService(session, transactionLog);
 		setDependency(IIgRestService.class, rest);
-		setDependency(IMarketNavigationCache.class, marketNavigationCache);
+		setDependency(IMarketNavigationCache.class, rest.getMarketNavigationCache());
 
 		log.info("Creating Trading Platform");
 		IgTradingPlatform platform = new IgTradingPlatform(rest);
