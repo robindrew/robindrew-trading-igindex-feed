@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.robindrew.common.util.Check;
+import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.Account;
@@ -69,7 +70,7 @@ public class ConnectionManager implements IConnectionManager, ConnectionManagerM
 			details = rest.login();
 
 			log.info("Registering Subscriptions");
-			IStreamingService service = platform.getStreamingService();
+			IStreamingService<IIgInstrument> service = platform.getStreamingService();
 			service.connect();
 			return true;
 

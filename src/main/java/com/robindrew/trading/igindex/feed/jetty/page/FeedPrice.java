@@ -4,6 +4,7 @@ import static java.lang.System.currentTimeMillis;
 
 import com.robindrew.common.html.Bootstrap;
 import com.robindrew.common.text.Strings;
+import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.price.candle.IPriceCandle;
 import com.robindrew.trading.price.candle.streaming.IPriceCandleSnapshot;
@@ -32,7 +33,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 	private final String updateCount;
 	private final String directionColor;
 
-	public FeedPrice(IInstrumentPriceStream subscription) {
+	public FeedPrice(IInstrumentPriceStream<IIgInstrument> subscription) {
 		IStreamingCandlePrice price = subscription.getPrice();
 		IPriceCandleSnapshot snapshot = price.getSnapshot();
 

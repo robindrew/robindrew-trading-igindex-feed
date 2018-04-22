@@ -10,6 +10,7 @@ import com.robindrew.common.http.servlet.executor.IVelocityHttpContext;
 import com.robindrew.common.http.servlet.request.IHttpRequest;
 import com.robindrew.common.http.servlet.response.IHttpResponse;
 import com.robindrew.common.service.component.jetty.handler.page.AbstractServicePage;
+import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.igindex.platform.IIgSession;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
@@ -31,15 +32,15 @@ public class FeedsPage extends AbstractServicePage {
 		dataMap.put("user", session.getCredentials().getUsername());
 		dataMap.put("environment", session.getEnvironment());
 
-		ITradingPlatform platform = getDependency(ITradingPlatform.class);
-		IStreamingService service = platform.getStreamingService();
+		ITradingPlatform<IIgInstrument> platform = getDependency(ITradingPlatform.class);
+		IStreamingService<IIgInstrument> service = platform.getStreamingService();
 		dataMap.put("feeds", getFeeds(service.getPriceStreams()));
 	}
 
-	private Set<Feed> getFeeds(Set<IInstrumentPriceStream> subscriptions) {
+	private Set<Feed> getFeeds(Set<IInstrumentPriceStream<IIgInstrument>> subscriptions) {
 		IIgRestService rest = getDependency(IIgRestService.class);
 		Set<Feed> feeds = new TreeSet<>();
-		for (IInstrumentPriceStream subscription : subscriptions) {
+		for (IInstrumentPriceStream<IIgInstrument> subscription : subscriptions) {
 			String epic = subscription.getInstrument().getName();
 			Markets markets = rest.getMarkets(epic, false);
 			feeds.add(new Feed(subscription, markets));
@@ -49,11 +50,11 @@ public class FeedsPage extends AbstractServicePage {
 
 	public static class Feed implements Comparable<Feed> {
 
-		private final IInstrumentPriceStream subscription;
+		private final IInstrumentPriceStream<IIgInstrument> subscription;
 		private final Markets markets;
 		private final FeedPrice price;
 
-		public Feed(IInstrumentPriceStream subscription, Markets markets) {
+		public Feed(IInstrumentPriceStream<IIgInstrument> subscription, Markets markets) {
 			this.subscription = subscription;
 			this.markets = markets;
 			this.price = new FeedPrice(subscription);
@@ -62,15 +63,15 @@ public class FeedsPage extends AbstractServicePage {
 		public String getId() {
 			return FeedPrice.toId(subscription.getInstrument().getName());
 		}
-		
-		public IInstrumentPriceStream getSubscription() {
+
+		public IInstrumentPriceStream<IIgInstrument> getSubscription() {
 			return subscription;
 		}
 
 		public Markets getMarkets() {
 			return markets;
 		}
-		
+
 		public FeedPrice getPrice() {
 			return price;
 		}
