@@ -32,7 +32,6 @@ import com.robindrew.trading.igindex.platform.rest.IgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
 import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonitor;
 import com.robindrew.trading.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
-import com.robindrew.trading.log.ITransactionLog;
 import com.robindrew.trading.log.TransactionLog;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IStreamingService;
@@ -78,7 +77,8 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		registry.register(sessionManager);
 
 		log.info("Creating Transaction Log");
-		ITransactionLog transactionLog = new TransactionLog(transactionLogDir);
+		TransactionLog transactionLog = new TransactionLog(transactionLogDir);
+		transactionLog.start();
 
 		log.info("Creating REST Service");
 		IgRestService rest = new IgRestService(session, transactionLog);
