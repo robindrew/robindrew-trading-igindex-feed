@@ -17,7 +17,7 @@ import com.robindrew.common.properties.map.type.IntegerProperty;
 import com.robindrew.common.properties.map.type.StringProperty;
 import com.robindrew.common.service.Services;
 import com.robindrew.common.service.component.AbstractIdleComponent;
-import com.robindrew.trading.IInstrument;
+import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.igindex.IgInstrument;
 import com.robindrew.trading.igindex.feed.igindex.connection.ConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.connection.IConnectionManager;
@@ -31,10 +31,9 @@ import com.robindrew.trading.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.igindex.platform.rest.IgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.IMarketNavigationCache;
 import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonitor;
-import com.robindrew.trading.igindex.platform.streaming.subscription.charttick.ChartTickPriceStream;
 import com.robindrew.trading.log.TransactionLog;
 import com.robindrew.trading.platform.ITradingPlatform;
-import com.robindrew.trading.platform.streaming.IStreamingService;
+import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.publisher.IPricePublisherServer;
 import com.robindrew.trading.platform.streaming.publisher.PricePublisherServer;
 import com.robindrew.trading.price.candle.io.stream.sink.PriceCandleFileSink;
@@ -146,22 +145,16 @@ public class IgIndexComponent extends AbstractIdleComponent {
 
 	}
 
-	private void createStreamingSubscription(IInstrument instrument, PricePrecision precision) {
-		ITradingPlatform platform = getDependency(ITradingPlatform.class);
+	@SuppressWarnings("unchecked")
+	private void createStreamingSubscription(IIgInstrument instrument, PricePrecision precision) {
+		ITradingPlatform<IIgInstrument> platform = getDependency(ITradingPlatform.class);
 
-		// Create the underlying stream
-		ChartTickPriceStream priceStream = new ChartTickPriceStream(instrument, precision);
-		priceStream.start();
+		// Register the stream to make it available through the platform
+		IInstrumentPriceStream<IIgInstrument> priceStream = platform.getStreamingService().getPriceStream(instrument);
 
 		// Create the output file
 		PriceCandleFileSink priceFileSink = new PriceCandleFileSink(instrument, new File(propertyTickOutputDir.get()));
 		priceFileSink.start();
-
-		// Register the stream to make it available through the platform
-		IStreamingService streamingService = platform.getStreamingService();
-		streamingService.register(priceStream);
-
-		// Register all the sinks
 		priceStream.register(priceFileSink);
 	}
 
