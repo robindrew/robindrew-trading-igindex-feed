@@ -34,6 +34,7 @@ import com.robindrew.trading.igindex.platform.streaming.IgStreamingServiceMonito
 import com.robindrew.trading.log.TransactionLog;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
+import com.robindrew.trading.platform.streaming.IStreamingService;
 import com.robindrew.trading.platform.streaming.publisher.IPricePublisherServer;
 import com.robindrew.trading.platform.streaming.publisher.PricePublisherServer;
 import com.robindrew.trading.price.candle.io.stream.sink.PriceCandleFileSink;
@@ -150,7 +151,9 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		ITradingPlatform<IIgInstrument> platform = getDependency(ITradingPlatform.class);
 
 		// Register the stream to make it available through the platform
-		IInstrumentPriceStream<IIgInstrument> priceStream = platform.getStreamingService().getPriceStream(instrument);
+		IStreamingService<IIgInstrument> streaming = platform.getStreamingService();
+		streaming.subscribe(instrument);
+		IInstrumentPriceStream<IIgInstrument> priceStream = streaming.getPriceStream(instrument);
 
 		// Create the output file
 		PriceCandleFileSink priceFileSink = new PriceCandleFileSink(instrument, new File(propertyTickOutputDir.get()));

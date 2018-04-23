@@ -2,6 +2,9 @@ package com.robindrew.trading.igindex.feed.jetty.page;
 
 import static java.lang.System.currentTimeMillis;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.robindrew.common.html.Bootstrap;
 import com.robindrew.common.text.Strings;
 import com.robindrew.trading.igindex.IIgInstrument;
@@ -32,10 +35,12 @@ public class FeedPrice implements Comparable<FeedPrice> {
 	private final String lastUpdated;
 	private final String updateCount;
 	private final String directionColor;
+	private final String tickVolume;
 
 	public FeedPrice(IInstrumentPriceStream<IIgInstrument> subscription) {
 		IStreamingCandlePrice price = subscription.getPrice();
-		IPriceCandleSnapshot snapshot = price.getSnapshot();
+		List<IPriceCandleSnapshot> history = price.getSnapshotHistory();
+		IPriceCandleSnapshot snapshot = history.isEmpty() ? null : history.get(0);
 
 		this.instrument = subscription.getInstrument().getName();
 		this.id = toId(this.instrument);
@@ -45,6 +50,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 			this.direction = "STALE";
 			this.lastUpdated = "-";
 			this.updateCount = "-";
+			this.tickVolume = "-";
 			this.directionColor = Bootstrap.COLOR_WARNING;
 		} else {
 			IPriceCandle latest = snapshot.getLatest();
@@ -58,7 +64,22 @@ public class FeedPrice implements Comparable<FeedPrice> {
 			this.lastUpdated = millis >= STALE_THRESHOLD ? Strings.duration(millis) : "-";
 			this.updateCount = String.valueOf(price.getUpdateCount());
 			this.directionColor = snapshot.getDirection().isBuy() ? Bootstrap.COLOR_INFO : Bootstrap.COLOR_DANGER;
+			this.tickVolume = getTickVolume(history);
 		}
+	}
+
+	private String getTickVolume(List<IPriceCandleSnapshot> history) {
+		long since = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(1);
+		int count = 0;
+		for (int i = history.size() - 1; i >= 0; i--) {
+			IPriceCandleSnapshot snapshot = history.get(i);
+			if (snapshot.getTimestamp() < since) {
+				break;
+			}
+			count++;
+		}
+
+		return String.valueOf(count);
 	}
 
 	public String getInstrument() {
@@ -87,6 +108,10 @@ public class FeedPrice implements Comparable<FeedPrice> {
 
 	public String getDirectionColor() {
 		return directionColor;
+	}
+
+	public String getTickVolume() {
+		return tickVolume;
 	}
 
 	@Override
