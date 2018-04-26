@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.robindrew.common.util.Check;
-import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
 import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.Account;
@@ -16,7 +15,7 @@ import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.
 import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
 import com.robindrew.trading.igindex.platform.rest.executor.getpositions.MarketPosition;
 import com.robindrew.trading.igindex.platform.rest.executor.login.LoginDetails;
-import com.robindrew.trading.platform.streaming.IStreamingService;
+import com.robindrew.trading.igindex.platform.streaming.IIgStreamingService;
 
 public class ConnectionManager implements IConnectionManager, ConnectionManagerMBean {
 
@@ -70,7 +69,7 @@ public class ConnectionManager implements IConnectionManager, ConnectionManagerM
 			details = rest.login();
 
 			log.info("Registering Subscriptions");
-			IStreamingService<IIgInstrument> service = platform.getStreamingService();
+			IIgStreamingService service = platform.getStreamingService();
 			service.connect();
 			return true;
 
