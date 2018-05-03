@@ -13,7 +13,7 @@ import com.robindrew.common.service.component.jetty.handler.page.AbstractService
 import com.robindrew.trading.igindex.IIgInstrument;
 import com.robindrew.trading.igindex.platform.IIgSession;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.response.Markets;
 import com.robindrew.trading.platform.ITradingPlatform;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.IStreamingService;

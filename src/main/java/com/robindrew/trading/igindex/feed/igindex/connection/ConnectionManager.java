@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import com.robindrew.common.util.Check;
 import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
 import com.robindrew.trading.igindex.platform.rest.IIgRestService;
-import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.Account;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.MarketNavigation;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
+import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.response.Account;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.response.MarketNavigation;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.response.Markets;
 import com.robindrew.trading.igindex.platform.rest.executor.getpositions.MarketPosition;
-import com.robindrew.trading.igindex.platform.rest.executor.login.LoginDetails;
+import com.robindrew.trading.igindex.platform.rest.executor.login.LoginResponse;
 import com.robindrew.trading.igindex.platform.streaming.IIgStreamingService;
 
 public class ConnectionManager implements IConnectionManager, ConnectionManagerMBean {
@@ -23,7 +23,7 @@ public class ConnectionManager implements IConnectionManager, ConnectionManagerM
 
 	private final IIgRestService rest;
 	private final IIgTradingPlatform platform;
-	private volatile LoginDetails details;
+	private volatile LoginResponse details;
 
 	public ConnectionManager(IIgRestService rest, IIgTradingPlatform platform) {
 		this.rest = Check.notNull("rest", rest);
@@ -36,7 +36,7 @@ public class ConnectionManager implements IConnectionManager, ConnectionManagerM
 	}
 
 	@Override
-	public LoginDetails getLoginDetails() {
+	public LoginResponse getLoginDetails() {
 		if (details == null) {
 			throw new IllegalStateException("Not logged in");
 		}

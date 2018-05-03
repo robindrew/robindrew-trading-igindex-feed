@@ -3,11 +3,11 @@ package com.robindrew.trading.igindex.feed.igindex.connection;
 import java.util.List;
 
 import com.robindrew.common.mbean.annotated.Name;
-import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.Account;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.MarketNavigation;
-import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.Markets;
+import com.robindrew.trading.igindex.platform.rest.executor.getaccounts.response.Account;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarketnavigation.response.MarketNavigation;
+import com.robindrew.trading.igindex.platform.rest.executor.getmarkets.response.Markets;
 import com.robindrew.trading.igindex.platform.rest.executor.getpositions.MarketPosition;
-import com.robindrew.trading.igindex.platform.rest.executor.login.LoginDetails;
+import com.robindrew.trading.igindex.platform.rest.executor.login.LoginResponse;
 
 public interface ConnectionManagerMBean {
 
@@ -17,7 +17,7 @@ public interface ConnectionManagerMBean {
 
 	boolean logout();
 
-	LoginDetails getLoginDetails();
+	LoginResponse getLoginDetails();
 
 	List<Account> listAccounts();
 
