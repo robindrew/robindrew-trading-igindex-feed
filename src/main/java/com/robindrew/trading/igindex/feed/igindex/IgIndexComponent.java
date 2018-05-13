@@ -21,6 +21,7 @@ import com.robindrew.trading.igindex.feed.igindex.connection.ConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.connection.IConnectionManager;
 import com.robindrew.trading.igindex.feed.igindex.session.SessionManager;
 import com.robindrew.trading.igindex.platform.IIgSession;
+import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
 import com.robindrew.trading.igindex.platform.IgCredentials;
 import com.robindrew.trading.igindex.platform.IgEnvironment;
 import com.robindrew.trading.igindex.platform.IgSession;
@@ -81,8 +82,8 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		setDependency(IMarketNavigationCache.class, rest.getMarketNavigationCache());
 
 		log.info("Creating Trading Platform");
-		IgTradingPlatform platform = new IgTradingPlatform(rest);
-		setDependency(ITradingPlatform.class, platform);
+		IIgTradingPlatform platform = new IgTradingPlatform(rest);
+		setDependency(IIgTradingPlatform.class, platform);
 
 		log.info("Creating Connection manager");
 		IConnectionManager connectionManager = new ConnectionManager(rest, platform);
