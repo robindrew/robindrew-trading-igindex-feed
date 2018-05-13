@@ -40,7 +40,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 	public FeedPrice(IInstrumentPriceStream<IIgInstrument> subscription) {
 		IStreamingCandlePrice price = subscription.getPrice();
 		List<IPriceCandleSnapshot> history = price.getSnapshotHistory();
-		IPriceCandleSnapshot snapshot = history.isEmpty() ? null : history.get(0);
+		IPriceCandleSnapshot snapshot = history.isEmpty() ? null : history.get(history.size() - 1);
 
 		this.instrument = subscription.getInstrument().getName();
 		this.id = toId(this.instrument);
