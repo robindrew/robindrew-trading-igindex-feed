@@ -127,8 +127,8 @@ public class IgIndexComponent extends AbstractIdleComponent {
 		createStreamingSubscription(IgIndexInstrument.WEEKDAY_DOW_JONES, new PricePrecision(2));
 
 		// Commodities
-		createStreamingSubscription(IgIndexInstrument.SPOT_SILVER, new PricePrecision(2));
-		createStreamingSubscription(IgIndexInstrument.SPOT_GOLD, new PricePrecision(2));
+		createStreamingSubscription(IgIndexInstrument.SPOT_XAG_USD, new PricePrecision(2));
+		createStreamingSubscription(IgIndexInstrument.SPOT_XAU_USD, new PricePrecision(2));
 		createStreamingSubscription(IgIndexInstrument.SPOT_US_CRUDE, new PricePrecision(2));
 		createStreamingSubscription(IgIndexInstrument.SPOT_BRENT_CRUDE, new PricePrecision(2));
 
