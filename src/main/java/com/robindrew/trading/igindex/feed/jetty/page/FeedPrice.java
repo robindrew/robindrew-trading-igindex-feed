@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.robindrew.common.html.Bootstrap;
 import com.robindrew.common.text.Strings;
-import com.robindrew.trading.igindex.IIgInstrument;
+import com.robindrew.trading.igindex.IIgIndexInstrument;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.price.candle.IPriceCandle;
 import com.robindrew.trading.price.candle.streaming.IPriceCandleSnapshot;
@@ -37,7 +37,7 @@ public class FeedPrice implements Comparable<FeedPrice> {
 	private final String directionColor;
 	private final String tickVolume;
 
-	public FeedPrice(IInstrumentPriceStream<IIgInstrument> subscription) {
+	public FeedPrice(IInstrumentPriceStream<IIgIndexInstrument> subscription) {
 		IStreamingCandlePrice price = subscription.getPrice();
 		List<IPriceCandleSnapshot> history = price.getSnapshotHistory();
 		IPriceCandleSnapshot snapshot = history.isEmpty() ? null : history.get(history.size() - 1);

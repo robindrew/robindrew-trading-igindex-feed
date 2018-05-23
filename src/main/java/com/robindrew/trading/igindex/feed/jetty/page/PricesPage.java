@@ -13,8 +13,8 @@ import com.robindrew.common.http.servlet.executor.IVelocityHttpContext;
 import com.robindrew.common.http.servlet.request.IHttpRequest;
 import com.robindrew.common.http.servlet.response.IHttpResponse;
 import com.robindrew.common.service.component.jetty.handler.page.AbstractServicePage;
-import com.robindrew.trading.igindex.IIgInstrument;
-import com.robindrew.trading.igindex.platform.IIgTradingPlatform;
+import com.robindrew.trading.igindex.IIgIndexInstrument;
+import com.robindrew.trading.igindex.platform.IIgIndexTradingPlatform;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 import com.robindrew.trading.platform.streaming.IStreamingService;
 
@@ -28,14 +28,14 @@ public class PricesPage extends AbstractServicePage {
 	protected void execute(IHttpRequest request, IHttpResponse response, Map<String, Object> dataMap) {
 		super.execute(request, response, dataMap);
 
-		IIgTradingPlatform platform = getDependency(IIgTradingPlatform.class);
-		IStreamingService<IIgInstrument> service = platform.getStreamingService();
+		IIgIndexTradingPlatform platform = getDependency(IIgIndexTradingPlatform.class);
+		IStreamingService<IIgIndexInstrument> service = platform.getStreamingService();
 		dataMap.put("prices", getPrices(service.getPriceStreams()));
 	}
 
-	private String getPrices(Set<IInstrumentPriceStream<IIgInstrument>> subscriptions) {
+	private String getPrices(Set<IInstrumentPriceStream<IIgIndexInstrument>> subscriptions) {
 		List<FeedPrice> prices = new ArrayList<>();
-		for (IInstrumentPriceStream<IIgInstrument> subscription : subscriptions) {
+		for (IInstrumentPriceStream<IIgIndexInstrument> subscription : subscriptions) {
 			prices.add(new FeedPrice(subscription));
 		}
 
