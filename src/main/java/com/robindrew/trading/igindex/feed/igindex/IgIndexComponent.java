@@ -134,7 +134,6 @@ public class IgIndexComponent extends AbstractIdleComponent {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createStreamingSubscription(IIgIndexInstrument instrument, PricePrecision precision) {
 		ITradingPlatform<IIgIndexInstrument> platform = getDependency(ITradingPlatform.class);
 

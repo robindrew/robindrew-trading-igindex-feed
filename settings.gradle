@@ -1,0 +1,10 @@
+rootProject.name = 'robindrew-trading-igindex-feed'
+
+include 'robindrew-common'
+project(":robindrew-common").projectDir = file('/../robindrew-common')
+
+include 'robindrew-trading'
+project(":robindrew-trading").projectDir = file('/../robindrew-trading')
+
+include 'robindrew-trading-igindex'
+project(":robindrew-trading-igindex").projectDir = file('/../robindrew-trading-igindex')
