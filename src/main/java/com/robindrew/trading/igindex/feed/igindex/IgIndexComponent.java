@@ -139,7 +139,7 @@ public class IgIndexComponent extends AbstractIdleComponent {
 
 		// Register the stream to make it available through the platform
 		IStreamingService<IIgIndexInstrument> streaming = platform.getStreamingService();
-		streaming.subscribe(instrument);
+		streaming.subscribeToPrices(instrument);
 		IInstrumentPriceStream<IIgIndexInstrument> priceStream = streaming.getPriceStream(instrument);
 
 		// Create the output file
